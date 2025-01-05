@@ -15,14 +15,14 @@ from selenium.webdriver.support import expected_conditions as EC
 from langchain.schema import Document
 import logging
 from contextlib import asynccontextmanager
-import nest_asyncio
+import asyncio
 import uvicorn
 import time
 import re
 import requests
 
-# Apply async loop patch
-nest_asyncio.apply()
+# Initialize logging
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
 # Initialize Gemini API
 class ChatGemini:
@@ -313,14 +313,7 @@ async def ask_question(query: QueryRequest):
         raise HTTPException(status_code=500, detail=f"Error: {str(e)}")
 
 
-# # Ngrok setup
-# def setup_ngrok():
-#     tunnel = ngrok.connect(8000)
-#     print(f"Public URL: {tunnel.public_url}")
 
 
 if __name__ == "__main__":
-    # ngrok.set_auth_token(os.getenv("NGROK_AUTH_TOKEN"))
-    # if os.getenv("NGROK_AUTH_TOKEN"):
-    #     setup_ngrok()
     uvicorn.run(app, host="0.0.0.0", port=int(os.getenv("PORT", 8000)))
