@@ -18,6 +18,8 @@ from contextlib import asynccontextmanager
 import nest_asyncio
 import uvicorn
 import time
+import re
+import requests
 
 # Apply async loop patch
 nest_asyncio.apply()
@@ -178,8 +180,7 @@ class QueryRequest(BaseModel):
     question: str
 
 
-import re
-import requests
+
 
 # Function to detect API requests in the generated answer
 def detect_api_request(answer):
@@ -312,14 +313,14 @@ async def ask_question(query: QueryRequest):
         raise HTTPException(status_code=500, detail=f"Error: {str(e)}")
 
 
-# Ngrok setup
-def setup_ngrok():
-    tunnel = ngrok.connect(8000)
-    print(f"Public URL: {tunnel.public_url}")
+# # Ngrok setup
+# def setup_ngrok():
+#     tunnel = ngrok.connect(8000)
+#     print(f"Public URL: {tunnel.public_url}")
 
 
 if __name__ == "__main__":
-    ngrok.set_auth_token(os.getenv("NGROK_AUTH_TOKEN"))
-    if os.getenv("NGROK_AUTH_TOKEN"):
-        setup_ngrok()
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    # ngrok.set_auth_token(os.getenv("NGROK_AUTH_TOKEN"))
+    # if os.getenv("NGROK_AUTH_TOKEN"):
+    #     setup_ngrok()
+    uvicorn.run(app, host="0.0.0.0", port=int(os.getenv("PORT", 8000)))
