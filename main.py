@@ -84,7 +84,7 @@ class NotionLoader:
             driver.get(url)
             
             # Wait for main content to load
-            WebDriverWait(driver, 20).until(
+            WebDriverWait(driver, 60).until(
                 EC.presence_of_element_located((By.CLASS_NAME, "notion-page-content"))
             )
             
